@@ -7,7 +7,7 @@ import java.net.URL;
 
 public class BaseTest {
 
-    private AppiumDriver driver;
+    public AppiumDriver driver;
 
     @Before
     public void setUp() throws Exception
@@ -19,7 +19,7 @@ public class BaseTest {
         capabilities.setCapability("automationName","Appium");
         capabilities.setCapability( "appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
-        capabilities.setCapability("app","/Users/akstas84/Desktop/JavaAppiumAutomation/apks/org.wikipedia.apk");
+        capabilities.setCapability("app","/Users/akstas/Desktop/Repos/JavaAppiumAutomation/apks/org.wikipedia.apk");
         driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
     }
     @After
