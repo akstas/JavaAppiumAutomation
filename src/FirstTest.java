@@ -5,7 +5,40 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
+
 public class FirstTest extends BaseTest{
+
+    @Test
+    public void testSerchListEx4()
+    {
+        String serachWord = "Android";
+        waitForElementPresentAndClick(
+                By.xpath("//*[contains(@text, 'SKIP')]"),
+                "Cannot find SKIP button",
+                5
+        );
+        waitForElementPresentAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find Search Wikipedia fild",
+                5
+        );
+        waitForElementPresentByIdAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                serachWord,
+                "Cannot find search input",
+                5
+        );
+
+        By elementId = By.id("org.wikipedia:id/page_list_item_title");
+        List<WebElement> elementsList1 = driver.findElements(elementId);
+        
+        for (WebElement element: elementsList1)
+        {
+            Assert.assertTrue("Word not contains in the string", element.getText().contains(serachWord));
+        }
+    }
+
 
     @Test
     public void firstTest()
