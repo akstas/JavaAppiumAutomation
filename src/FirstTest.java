@@ -314,7 +314,6 @@ public class FirstTest extends BaseTest{
 
     }
 
-
     @Test
     public void testCheckSearchArticleInBackground()
     {
@@ -342,12 +341,190 @@ public class FirstTest extends BaseTest{
                 "Connot find Artical after returned background",
                 5
         );
+    }
 
+    @Test
+    public void Ex5(){
+        String searchValue = "Java";
+        String folderName = "Learning programming";
+        String firstTitleText = "Java (programming language)";
+        String firstXpathTextElement = "Object-oriented programming language";
+        String secondTitleText = "JavaScript";
+        String secondXpathTextElement = "Programming language";
+        clickSerchFildAndEnterValue(searchValue);
+        clickByToSearchResult(firstXpathTextElement, firstTitleText);
+        addArticleToList(folderName, true);
+        clickSerchFildAndEnterValue(searchValue);
+        clickByToSearchResult(secondXpathTextElement, secondTitleText);
+        addArticleToList(folderName, false);
+        goToMyList(folderName);
+        openMyListFolder(folderName);
+        validateBeforeDelete(firstTitleText, secondTitleText);
+        delArticleToList(secondTitleText);
+        validateAfterDelete(firstTitleText, secondTitleText);
+        openArticle(firstTitleText);
+        validateOpenArticleTitle(firstTitleText);
 
     }
 
-    private String waitForElementAndGetAttribute(By by, String attribute, String errorMessage, long timeoutInSecounds)
-    {
+    private void validateOpenArticleTitle(String firstTitleText) {
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text'][@text='"+ firstTitleText +"']"),
+                "Article does not match expected : " + firstTitleText,
+                15
+        );
+    }
+
+    private void openArticle(String firstTitleText){
+        waitForElementPresentAndClick(
+                By.xpath("//*[@text='" + firstTitleText + "']"),
+                "Cannot open article : " + firstTitleText,
+                5
+        );
+
+    }
+    private void validateAfterDelete(String firstTitleText, String secondTitleText) {
+        waitForElementPresent(
+                By.xpath("//*[@text='" + firstTitleText + "']"),
+                "Not present article : " + firstTitleText,
+                5
+        );
+                waitForElementNotPresent(
+                By.xpath("//*[@text='" + secondTitleText + "']"),
+                "Cannot delete saved article : " + secondTitleText,
+                5
+        );
+    }
+
+    private void validateBeforeDelete(String firstTitleText, String secondTitleText) {
+        waitForElementPresent(
+                By.xpath("//*[@text='" + firstTitleText + "']"),
+                "Not present article: " + firstTitleText,
+                5
+        );
+        waitForElementPresent(
+                By.xpath("//*[@text='" + secondTitleText + "']"),
+                "Not present article : " + secondTitleText,
+                5
+        );
+    }
+
+    private void clickSerchFildAndEnterValue(String searchValue) {
+        waitForElementPresentAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find Search Wikipedia fild",
+                5
+        );
+        waitForElementPresentByIdAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                searchValue,
+                "Cannot find search input : " + searchValue ,
+                5
+        );
+    }
+    private void openMyListFolder(String folderName) {
+        waitForElementPresentAndClick(
+                By.xpath("//*[@text='" + folderName + "']"),
+                "Cannot find created folder",
+                10
+        );
+    }
+    private void delArticleToList(String itemTitleText){
+
+        swipeElementToLeft(
+                By.xpath("//*[@text='" + itemTitleText + "']"),
+                "Cannot find saved article"
+        );
+    }
+    private void clickByToSearchResult(String subtitelText, String xpathTextElement){
+        waitForElementPresentAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='" + subtitelText + "']"),
+                "Connot find : " + subtitelText ,
+                5
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text'][@text='"+ xpathTextElement +"']"),
+                "Cannot find titles id",
+                15
+        );
+    }
+    private void addArticleToList(String folderName, boolean createNewFolder){
+
+        waitForElementPresentAndClick(
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+                "Cannot find button to open article option",
+                5
+        );
+        waitForElementPresentAndClick(
+                By.xpath("//*[@text='Add to reading list']"),
+                "Cannot find option to add article to reading list",
+                5
+        );
+        if(createNewFolder)
+        {
+            createNewListFolder();
+
+        }
+        else
+            {
+                waitForElementPresentAndClick(
+                        By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='" + folderName + "']"),
+                        "Cannot find titles id",
+                        15
+                );
+            }
+
+        waitForElementPresentAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Cannot close article, cannot find X link",
+                5
+        );
+    }
+
+    private void goToMyList(String folderName){
+        waitForElementPresentAndClick(
+                By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
+                "Cannot press OK button",
+                5
+        );
+        waitForElementPresentAndClick(
+                By.xpath("//*[@text='"+ folderName +"']"),
+                "Cannot find created folder",
+                10
+        );
+    }
+    private void createNewListFolder() {
+
+        waitForElementPresentAndClick(
+
+                By.id("org.wikipedia:id/onboarding_button"),
+                "Cannot find 'Got it' tip overlay",
+                5
+        );
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/text_input"),
+                "Cannot find input to set name of articles folder",
+                5
+        );
+        waitForElementPresentByIdAndSendKeys(
+                By.id("org.wikipedia:id/text_input"),
+                "Learning programming",
+                "Cannot put text into articles folder input",
+                5
+        );
+        waitForElementPresentAndClick(
+                By.xpath("//*[@text='OK']"),
+                "Cannot press OK button",
+                5
+        );
+
+    }
+
+
+
+
+    private String waitForElementAndGetAttribute(By by, String attribute, String errorMessage, long timeoutInSecounds){
         WebElement element = waitForElementPresent(by, errorMessage, timeoutInSecounds);
         return element.getAttribute(attribute);
     }
