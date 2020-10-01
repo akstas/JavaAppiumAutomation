@@ -2,6 +2,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Before;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import java.net.URL;
 
@@ -21,6 +22,7 @@ public class BaseTest {
         capabilities.setCapability("appActivity", ".main.MainActivity");
         capabilities.setCapability("app","/Users/akstas/Desktop/Repos/JavaAppiumAutomation/apks/org.wikipedia.apk");
         driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
+        driver.rotate(ScreenOrientation.PORTRAIT);
     }
     @After
     public void tearDown()
