@@ -1,10 +1,7 @@
 import io.appium.java_client.TouchAction;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -346,6 +343,33 @@ public class FirstTest extends BaseTest{
 
     }
 
+    @Test
+    public void Ex6(){
+        waitForElementPresentAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find Search Wikipedia fild",
+                5
+        );
+        String searchValue = "Java";
+        waitForElementPresentByIdAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                searchValue,
+                "Cannot find search input : " + searchValue ,
+                5
+        );
+        waitForElementPresentAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Java (programming language)']"),
+                "Connot find 'Java (programming language)' topic searching by :" + searchValue,
+                5
+        );
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text'][@text='Java (programming language)']"),
+                "Cannot find titles id",
+                0
+        );
+
+    }
+
     private String waitForElementAndGetAttribute(By by, String attribute, String errorMessage, long timeoutInSecounds)
     {
         WebElement element = waitForElementPresent(by, errorMessage, timeoutInSecounds);
@@ -439,5 +463,6 @@ public class FirstTest extends BaseTest{
         element.clear();
         return element;
     }
+
 
 }
