@@ -308,10 +308,7 @@ public class FirstTest extends BaseTest{
         );
         Assert.assertEquals("Article title have been changed after screen rotation",
                 titleBeforeRotation, titleAfterSecondRotation);
-
     }
-
-
     @Test
     public void testCheckSearchArticleInBackground()
     {
@@ -342,7 +339,6 @@ public class FirstTest extends BaseTest{
 
 
     }
-
     @Test
     public void Ex6(){
         waitForElementPresentAndClick(
@@ -362,14 +358,19 @@ public class FirstTest extends BaseTest{
                 "Connot find 'Java (programming language)' topic searching by :" + searchValue,
                 5
         );
-        waitForElementPresent(
-                By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text'][@text='Java (programming language)']"),
-                "Cannot find titles id",
-                0
-        );
+
+        assertElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text'][@text='Java (programming language)']"),
+                "Cannot find titles id"
+                );
 
     }
-
+    private void assertElementPresent(By by, String errorMessage)
+    {
+        waitForElementPresent(
+                by,
+                errorMessage,
+                0);
+    }
     private String waitForElementAndGetAttribute(By by, String attribute, String errorMessage, long timeoutInSecounds)
     {
         WebElement element = waitForElementPresent(by, errorMessage, timeoutInSecounds);
