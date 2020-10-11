@@ -1,17 +1,20 @@
+package lib;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
-import org.junit.After;
-import org.junit.Before;
+import junit.framework.TestCase;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import java.net.URL;
 
-public class BaseTest {
+public class CoreTestCase extends TestCase {
 
-    public AppiumDriver driver;
+    protected AppiumDriver driver;
+    private static String AppiumURL = "http://0.0.0.0:4723/wd/hub";
 
-    @Before
-    public void setUp() throws Exception
+    @Override
+    protected void setUp() throws Exception
     {
+        super.setUp();
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName", "Android");
         capabilities.setCapability("deviceName", "AndroidTestDivice");
@@ -20,11 +23,25 @@ public class BaseTest {
         capabilities.setCapability( "appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
         capabilities.setCapability("app","/Users/akstas/Desktop/Repos/JavaAppiumAutomation/apks/org.wikipedia.apk");
-        driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
+        driver = new AndroidDriver(new URL(AppiumURL), capabilities);
     }
-    @After
-    public void tearDown()
-    {
+    @Override
+    protected void tearDown() throws Exception {
         driver.quit();
+        super.tearDown();
     }
+
+    protected void rotateScreenPortrait()
+    {
+        driver.rotate(ScreenOrientation.PORTRAIT);
+    }
+    protected void rotateScreenLandscape()
+    {
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+    }
+    protected void backgroundApp(int seconds)
+    {
+        driver.runAppInBackground(seconds);
+    }
+
 }
