@@ -15,7 +15,8 @@ public class SearchPageObject extends MainPageObject
             SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/fragment_search_results']//*[@text='{SUBSTRING}']",
             SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
-            SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']";
+            SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
+            SEARCH_EMPTY_RESULT_ELEMENT_IMAGE = "//*[@resource_id='org.wikipedia:id/search_empty_image']";
 
     public SearchPageObject initSearchInput()
     {
@@ -78,6 +79,11 @@ public class SearchPageObject extends MainPageObject
     public SearchPageObject assertThereIsNotResultsOfSearch()
     {
         waitForElementNotPresent(By.xpath(SEARCH_RESULT_ELEMENT), "We supposed not to find any results", 5);
+        return this;
+    }
+    public SearchPageObject assertThereIsNotResultsAfterCloseCancelOfSearch()
+    {
+        waitForElementNotPresent(By.xpath(SEARCH_EMPTY_RESULT_ELEMENT_IMAGE), "We supposed not to find any results", 5);
         return this;
     }
 }

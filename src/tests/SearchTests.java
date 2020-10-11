@@ -38,4 +38,16 @@ public class SearchTests extends CoreTestCase
                 .clickCancelSearch()
                 .waitForCancelButtonToDisapear();
     }
+    @Test
+    public void testSerchListEx3()
+    {
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject
+                .initSearchInput()
+                .typeSearchLine("Android");
+        int searchResultAmmountBefore =  searchPageObject.getAmmountOfFoundArticles();
+        assertTrue("Articles not still on the list", searchResultAmmountBefore > 0);
+        searchPageObject.clickCancelSearch();
+        searchPageObject.assertThereIsNotResultsAfterCloseCancelOfSearch();
+    }
 }
