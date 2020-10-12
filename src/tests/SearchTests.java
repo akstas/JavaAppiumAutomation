@@ -1,8 +1,10 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 public class SearchTests extends CoreTestCase
 {
@@ -49,5 +51,19 @@ public class SearchTests extends CoreTestCase
         assertTrue("Articles not still on the list", searchResultAmmountBefore > 0);
         searchPageObject.clickCancelSearch();
         searchPageObject.assertThereIsNotResultsAfterCloseCancelOfSearch();
+    }
+    @Test
+    public void testAssertTitleEx6(){
+        String searchValue = "Java";
+        String textTitle = "Java (programming language)";
+
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject
+                .initSearchInput()
+                .typeSearchLine(searchValue)
+                .clickByArticleWithSubstring(textTitle);
+        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        String getTextTittle = articlePageObject.getArticleTitle();
+        assertEquals("Expected title not equal", getTextTittle, textTitle);
     }
 }
