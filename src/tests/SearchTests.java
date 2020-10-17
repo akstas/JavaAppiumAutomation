@@ -6,22 +6,20 @@ import lib.ui.SearchPageObject;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-public class SearchTests extends CoreTestCase
-{
+public class SearchTests extends CoreTestCase {
     @Test
-    public void testAmountOfNotEmptySearch()
-    {
+    public void testAmountOfNotEmptySearch() {
         String searchLineValue = "Linkin Park Diskography";
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject
                 .initSearchInput()
                 .typeSearchLine(searchLineValue);
         int amountOfSearchResults = searchPageObject.getAmmountOfFoundArticles();
-        assertTrue("We found too few result",amountOfSearchResults > 0);
+        assertTrue("We found too few result", amountOfSearchResults > 0);
     }
+
     @Test
-    public void testAmountOfEmptySearch()
-    {
+    public void testAmountOfEmptySearch() {
         String searchLineValue = "Android Kotlin";
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject
@@ -30,9 +28,9 @@ public class SearchTests extends CoreTestCase
                 .waitForEmptyResultsLabel()
                 .assertThereIsNotResultsOfSearch();
     }
+
     @Test
-    public void testCancelSearch()
-    {
+    public void testCancelSearch() {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject
                 .initSearchInput()
@@ -40,20 +38,21 @@ public class SearchTests extends CoreTestCase
                 .clickCancelSearch()
                 .waitForCancelButtonToDisapear();
     }
+
     @Test
-    public void testSerchListEx3()
-    {
+    public void testSerchListEx3() {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject
                 .initSearchInput()
                 .typeSearchLine("Android");
-        int searchResultAmmountBefore =  searchPageObject.getAmmountOfFoundArticles();
+        int searchResultAmmountBefore = searchPageObject.getAmmountOfFoundArticles();
         assertTrue("Articles not still on the list", searchResultAmmountBefore > 0);
         searchPageObject.clickCancelSearch();
         searchPageObject.assertThereIsNotResultsAfterCloseCancelOfSearch();
     }
+
     @Test
-    public void testAssertTitleEx6(){
+    public void testAssertTitleEx6() {
         String searchValue = "Java";
         String textTitle = "Java (programming language)";
 
@@ -65,5 +64,33 @@ public class SearchTests extends CoreTestCase
         ArticlePageObject articlePageObject = new ArticlePageObject(driver);
         String getTextTittle = articlePageObject.getArticleTitle();
         assertEquals("Expected title not equal", getTextTittle, textTitle);
+    }
+
+    @Test
+    public void testSearchTitleAndDiscriptionEx9() {
+        String searchFirstValue = "Java";
+        String titleFirstValue = "Java (programming language)";
+        String searchSecondValue = "Android";
+        String titleSecondValue = "Android (operating system)";
+        String searchThirdValue = "Kotlin";
+        String titleThirdValue = "Kotlin (programming language)";
+
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject
+                .initSearchInput()
+                .typeSearchLine(searchFirstValue);
+        searchPageObject.waitForElementByTitleAndDescription(titleFirstValue, "Object-oriented programming language");
+        searchPageObject.clickCancelSearch();
+
+        searchPageObject
+                .initSearchInput()
+                .typeSearchLine(searchSecondValue);
+        searchPageObject.waitForElementByTitleAndDescription(titleSecondValue, "Open-source operating system for mobile devices created by Google");
+        searchPageObject.clickCancelSearch();
+
+        searchPageObject
+                .initSearchInput()
+                .typeSearchLine(searchThirdValue);
+        searchPageObject.waitForElementByTitleAndDescription(titleThirdValue, "Programming language");
     }
 }

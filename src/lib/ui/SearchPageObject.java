@@ -16,7 +16,8 @@ public class SearchPageObject extends MainPageObject
             SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
             SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
-            SEARCH_EMPTY_RESULT_ELEMENT_IMAGE = "//*[@resource_id='org.wikipedia:id/search_empty_image']";
+            SEARCH_EMPTY_RESULT_ELEMENT_IMAGE = "//*[@resource_id='org.wikipedia:id/search_empty_image']",
+            SEARCH_LOCATOR_RREPLACE_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRINGTITLE}']/..//*[@text='{SUBSTRINGDESCRIPTION}']";
 
     public SearchPageObject initSearchInput()
     {
@@ -40,7 +41,17 @@ public class SearchPageObject extends MainPageObject
     {
     return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
+    private String testMethodEx9(String substring, String description)
+    {
+        return SEARCH_LOCATOR_RREPLACE_TPL.replace("{SUBSTRINGTITLE}", substring).replace("{SUBSTRINGDESCRIPTION}", description);
+    }
     /*TEMPLATES METHOD*/
+    public SearchPageObject waitForElementByTitleAndDescription(String substring, String description)
+    {
+        String searchResultXpath = testMethodEx9(substring, description);
+        waitForElementPresent(By.xpath(searchResultXpath), "Cannot find search result with substring SIBLING : ", 5);
+        return this;
+    }
     public SearchPageObject waitForCancelButtonToAppear()
     {
         waitForElementPresent(By.id(SEARCH_CANCEL_BUTTON),"Cannot find X to cancel search",5);

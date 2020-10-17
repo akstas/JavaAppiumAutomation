@@ -9,7 +9,7 @@ import java.net.URL;
 public class CoreTestCase extends TestCase {
 
     protected AppiumDriver driver;
-    private static String AppiumURL = "http://0.0.0.0:4723/wd/hub";
+    private static final String AppiumURL = "http://0.0.0.0:4723/wd/hub";
 
     @Override
     protected void setUp() throws Exception
