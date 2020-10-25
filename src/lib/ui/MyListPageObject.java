@@ -1,13 +1,12 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
 
 public class MyListPageObject extends MainPageObject{
 
     public static final String
-            FOLDER_BY_NAME_TPL = "//*[@text='{FOLDER_NAME}']",
-            ARTICLE_BY_TITLE_TPL = "//*[@text='{TITLE}']" ;
+            FOLDER_BY_NAME_TPL = "xpath://*[@text='{FOLDER_NAME}']",
+            ARTICLE_BY_TITLE_TPL = "xpath://*[@text='{TITLE}']" ;
 
     public MyListPageObject(AppiumDriver driver)
     {
@@ -18,7 +17,7 @@ public class MyListPageObject extends MainPageObject{
     {
         String FOLDER_NAME = getFolderXpathByName(folderName);
         this.waitForElementPresentAndClick(
-                By.xpath(FOLDER_NAME),
+                FOLDER_NAME,
                 "Cannot find created folder",
                 10);
         return this;
@@ -33,7 +32,7 @@ public class MyListPageObject extends MainPageObject{
         waitForArticleToAppearByTitle(articleTitle);
         String articleXpath = getFolderXpathByName(articleTitle);
         this.swipeElementToLeft(
-                By.xpath(articleXpath),
+                articleXpath,
                 "Cannot find saved article");
         waitForArticleToDisappearByTitle(articleTitle);
         return this;
@@ -46,11 +45,11 @@ public class MyListPageObject extends MainPageObject{
     public void waitForArticleToDisappearByTitle(String articleTitle)
     {
         String articleXpath = getFolderXpathByName(articleTitle);
-        this.waitForElementNotPresent(By.xpath(articleXpath), "Saved article still present with title " + articleTitle, 15);
+        this.waitForElementNotPresent(articleXpath, "Saved article still present with title " + articleTitle, 15);
     }
     public void waitForArticleToAppearByTitle(String articleTitle)
     {
         String articleXpath = getFolderXpathByName(articleTitle);
-        this.waitForElementPresent(By.xpath(articleXpath), "Saved article still not present with title " + articleTitle, 15);
+        this.waitForElementPresent(articleXpath, "Saved article still not present with title " + articleTitle, 15);
     }
 }
