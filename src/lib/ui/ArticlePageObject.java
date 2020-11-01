@@ -22,12 +22,12 @@ abstract public class ArticlePageObject extends MainPageObject
             MY_LIST_OK_BUTTON,
             CLOSE_ARTICLE_BUTTON,
             TITLE_IN_LIST,
-            SYNC_YOUR_PREFERENCES_CLOSE;
-
+            SYNC_YOUR_PREFERENCES_CLOSE,
+            MY_LIST_FOLDER_NAME;
 
     public WebElement waitForTitleElement()
     {
-        return waitForElementPresent(TITLE, "Cannot find article title on page", 10);
+        return waitForElementPresent(TITLE_IN_LIST, "Cannot find article title on page", 10);
     }
     public String getArticleTitle()
     {
@@ -88,7 +88,7 @@ abstract public class ArticlePageObject extends MainPageObject
         }else
         {
             waitForElementPresentAndClick(
-                    "//*[@resource-id='org.wikipedia:id/item_title'][@text='" + folderName + "']",
+                    MY_LIST_FOLDER_NAME,
                     "Cannot find titles id",
                     15
             );
@@ -104,8 +104,13 @@ abstract public class ArticlePageObject extends MainPageObject
     }
     public String getArticleTitleInList()
     {
-        WebElement titleElement = waitForTitleElementInList();
-        return titleElement.getAttribute("text");
+        WebElement titleElement = waitForTitleElement();
+        if(Platform.getInstance().isAndroid())
+        {
+            return titleElement.getAttribute("text");
+        } else {
+            return titleElement.getAttribute("value");
+        }
     }
     public void addArticleToMySaved()
     {

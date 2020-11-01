@@ -14,8 +14,6 @@ import java.time.Duration;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static lib.ui.MyListPageObject.SWIPE_ACTION_DELETE;
-
 public class MainPageObject {
 
     protected AppiumDriver driver;
@@ -54,7 +52,7 @@ public class MainPageObject {
         {
             action.moveTo(PointOption.point(leftX, middleY));
         } else {
-            int offsetX = (-1 * element.getSize().getWidth());
+            int offsetX = (-2 * element.getSize().getWidth());
             action.moveTo(PointOption.point(offsetX, 0));
         }
 
@@ -109,7 +107,7 @@ public class MainPageObject {
                 .release()
                 .perform();
     }
-    public WebElement waitForElementPresentAndClick(String locator, String errorMessage, long timeOutInSeconds)
+    public WebElement waitForElementPresentAndClick(String locator, String errorMessage, int timeOutInSeconds)
     {
         WebElement element = waitForElementPresent(locator, errorMessage, timeOutInSeconds);
         element.click();

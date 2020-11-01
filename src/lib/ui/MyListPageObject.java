@@ -44,7 +44,6 @@ abstract public class MyListPageObject extends MainPageObject{
             this.clickElementToTheRightUpperCorer(articleXpath, "Cannot find saved article");
             this.waitForElementPresentAndClick(SWIPE_ACTION_DELETE, "Cannot find delete button", 10);
         }
-        waitForArticleToDisappearByTitle(articleTitle);
         return this;
     }
     private static String getArticleXpathByName(String articleTitle)

@@ -15,7 +15,8 @@ abstract public class SearchPageObject extends MainPageObject
             SEARCH_CANCEL_BUTTON,
             SEARCH_RESULT_ELEMENT,
             SEARCH_EMPTY_RESULT_ELEMENT,
-            SEARCH_EMPTY_RESULT_ELEMENT_IMAGE;
+            SEARCH_EMPTY_RESULT_ELEMENT_IMAGE,
+            SEARCH_CLEAR_MINI;
 
     public SearchPageObject initSearchInput()
     {
@@ -84,5 +85,9 @@ abstract public class SearchPageObject extends MainPageObject
     {
         waitForElementNotPresent(SEARCH_EMPTY_RESULT_ELEMENT_IMAGE, "We supposed not to find any results", 5);
         return this;
+    }
+    public void EraseSearchInput()
+    {
+        this.waitForElementPresentAndClick(SEARCH_CLEAR_MINI, "Cannot find element close button", 5);
     }
 }

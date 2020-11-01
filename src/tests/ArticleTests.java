@@ -1,6 +1,7 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.ArticlePageObject;
 import lib.ui.MyListPageObject;
 import lib.ui.NavigationUI;
@@ -52,20 +53,43 @@ public class ArticleTests extends CoreTestCase
                 .typeSearchLine(searchFirstValue)
                 .clickByArticleWithSubstring(firstTitleText);
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
-        articlePageObject.addArticleToMyList(folderName, true);
+
+        if (Platform.getInstance().isAndroid())
+        {
+            articlePageObject.addArticleToMyList(folderName, true);
+        } else {
+            articlePageObject.addArticleToMySaved();
+            if(articlePageObject.checkScreenSyncYourPreferences())
+            {
+                articlePageObject.clickCloseSyncYourPreferences();
+            }
+        }
         articlePageObject.closeArticle();
+        searchPageObject.initSearchInput();
+        if (Platform.getInstance().isIOS()) {
+            searchPageObject.EraseSearchInput();
+        }
         searchPageObject
-                .initSearchInput()
                 .typeSearchLine(searchSecondValue)
                 .clickByArticleWithSubstring(secondTextElement);
-        articlePageObject.addArticleToMyList(folderName, false);
+        if (Platform.getInstance().isAndroid())
+        {
+            articlePageObject.addArticleToMyList(folderName, false);
+        } else {
+            articlePageObject.addArticleToMySaved();
+        }
         articlePageObject.closeArticle();
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.clickMyLists();
         MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
-        myListPageObject
-                .openFolderByName(folderName)
-                .swipeByArticleToDelete(searchSecondValue);
+        if (Platform.getInstance().isAndroid()) {
+            myListPageObject
+                    .openFolderByName(folderName)
+                    .swipeByArticleToDelete(searchSecondValue);
+        } else{
+            myListPageObject
+                    .swipeByArticleToDelete(searchSecondValue);
+        }
         String articleTitle = articlePageObject.getArticleTitleInList();
         assertEquals("First document is not in the list",firstTitleText, articleTitle);
     }

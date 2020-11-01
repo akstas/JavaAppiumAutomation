@@ -10,7 +10,7 @@ public class iOSArticlePageObject extends ArticlePageObject
         FOOTER_ELEMENT = "id:View article in browser";
         OPTIONS_ADD_TO_MY_LIST_BUTTON = "id:Save for later";
         CLOSE_ARTICLE_BUTTON = "id:Back";
-        TITLE_IN_LIST = "id:org.wikipedia:id/page_list_item_title";
+        TITLE_IN_LIST = "id:Java (programming language)";
         SYNC_YOUR_PREFERENCES_CLOSE = "id:places auth close";
     }
 

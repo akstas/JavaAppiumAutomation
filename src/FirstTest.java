@@ -2,7 +2,6 @@ import lib.CoreTestCase;
 import lib.ui.*;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 
 public class FirstTest extends CoreTestCase {
