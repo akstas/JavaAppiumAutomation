@@ -5,6 +5,10 @@ import lib.ui.ArticlePageObject;
 import lib.ui.MyListPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.MyListPageObjectFactory;
+import lib.ui.factories.NavigationUIFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class ArticleTests extends CoreTestCase
@@ -12,24 +16,26 @@ public class ArticleTests extends CoreTestCase
     @Test
     public void testCompareArticleTitle()
     {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        String titleName = "Java (programming language)";
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .initSearchInput()
-                .typeSearchLine("Android")
-                .clickByArticleWithSubstring("Open-source operating system for mobile devices created by Google");
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+                .typeSearchLine("Java")
+                .clickByArticleWithSubstring(titleName);
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         String articleTitle = articlePageObject.getArticleTitle();
-        assertEquals("We see unxpected title","Android (operating system)", articleTitle);
+        assertEquals("We see unxpected title" + titleName ,titleName, articleTitle);
     }
     @Test
     public void testSwipeArticle()
     {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .initSearchInput()
-                .typeSearchLine("Appium")
-                .clickByArticleWithSubstring("Appium");
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+                .typeSearchLine("Java")
+                .clickByArticleWithSubstring("Object-oriented programming language");
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
+        articlePageObject.waitForTitleElement();
         articlePageObject.swipeToFindElement();
     }
     @Test
@@ -40,12 +46,12 @@ public class ArticleTests extends CoreTestCase
         String secondTextElement = "Programming language";
         String folderName = "Learning programming";
 
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .initSearchInput()
                 .typeSearchLine(searchFirstValue)
                 .clickByArticleWithSubstring(firstTitleText);
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.addArticleToMyList(folderName, true);
         articlePageObject.closeArticle();
         searchPageObject
@@ -54,9 +60,9 @@ public class ArticleTests extends CoreTestCase
                 .clickByArticleWithSubstring(secondTextElement);
         articlePageObject.addArticleToMyList(folderName, false);
         articlePageObject.closeArticle();
-        NavigationUI navigationUI = new NavigationUI(driver);
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.clickMyLists();
-        MyListPageObject myListPageObject = new MyListPageObject(driver);
+        MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
         myListPageObject
                 .openFolderByName(folderName)
                 .swipeByArticleToDelete(searchSecondValue);

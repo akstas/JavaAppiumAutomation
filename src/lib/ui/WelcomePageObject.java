@@ -11,7 +11,8 @@ public class WelcomePageObject extends MainPageObject
         STEP_ADD_OR_EDIT_PREFERRED_LANGUAGES = "name:Add or edit preferred languages",
         STEP_LEARN_MORE_ABOUT_DATA_COLLECTED = "name:Learn more about data collected",
         NEXT_LINK = "name:Next",
-        GET_STARTED_BUTTON = "name:Get started";
+        GET_STARTED_BUTTON = "name:Get started",
+        SKIP = "name:Skip";
 
     public WelcomePageObject(AppiumDriver driver)
     {
@@ -40,5 +41,9 @@ public class WelcomePageObject extends MainPageObject
     public void clickGetStartedButton()
     {
         this.waitForElementPresentAndClick(GET_STARTED_BUTTON, "Cannot find button 'Get started'", 10);
+    }
+    public void clickSkip()
+    {
+        this.waitForElementPresentAndClick(SKIP, "Cannot find link 'SKIP'", 15);
     }
 }

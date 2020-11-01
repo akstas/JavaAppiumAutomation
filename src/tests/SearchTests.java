@@ -3,6 +3,8 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -12,7 +14,7 @@ public class SearchTests extends CoreTestCase
     public void testAmountOfNotEmptySearch()
     {
         String searchLineValue = "Linkin Park Diskography";
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .initSearchInput()
                 .typeSearchLine(searchLineValue);
@@ -23,7 +25,7 @@ public class SearchTests extends CoreTestCase
     public void testAmountOfEmptySearch()
     {
         String searchLineValue = "Android Kotlin";
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .initSearchInput()
                 .typeSearchLine(searchLineValue)
@@ -33,7 +35,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testCancelSearch()
     {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .initSearchInput()
                 .waitForCancelButtonToAppear()
@@ -43,7 +45,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testSerchListEx3()
     {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .initSearchInput()
                 .typeSearchLine("Android");
@@ -57,12 +59,12 @@ public class SearchTests extends CoreTestCase
         String searchValue = "Java";
         String textTitle = "Java (programming language)";
 
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .initSearchInput()
                 .typeSearchLine(searchValue)
                 .clickByArticleWithSubstring(textTitle);
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         String getTextTittle = articlePageObject.getArticleTitle();
         assertEquals("Expected title not equal", getTextTittle, textTitle);
     }

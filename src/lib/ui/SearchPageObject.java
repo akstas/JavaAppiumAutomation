@@ -2,20 +2,20 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 
-public class SearchPageObject extends MainPageObject
+abstract public class SearchPageObject extends MainPageObject
 {
     public SearchPageObject(AppiumDriver driver) {
         super(driver);
     }
 
-    private static final String
-            SEARCH_INIT_ELEMENT = "xpath://*[contains(@text, 'Search Wikipedia')]",
-            SEARCH_INPUT = "id:org.wikipedia:id/search_src_text",
-            SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/fragment_search_results']//*[@text='{SUBSTRING}']",
-            SEARCH_CANCEL_BUTTON = "id:org.wikipedia:id/search_close_btn",
-            SEARCH_RESULT_ELEMENT = "xpath://*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
-            SEARCH_EMPTY_RESULT_ELEMENT = "xpath://*[@text='No results found']",
-            SEARCH_EMPTY_RESULT_ELEMENT_IMAGE = "xpath://*[@resource_id='org.wikipedia:id/search_empty_image']";
+    protected static String
+            SEARCH_INIT_ELEMENT,
+            SEARCH_INPUT,
+            SEARCH_RESULT_BY_SUBSTRING_TPL,
+            SEARCH_CANCEL_BUTTON,
+            SEARCH_RESULT_ELEMENT,
+            SEARCH_EMPTY_RESULT_ELEMENT,
+            SEARCH_EMPTY_RESULT_ELEMENT_IMAGE;
 
     public SearchPageObject initSearchInput()
     {
@@ -37,7 +37,7 @@ public class SearchPageObject extends MainPageObject
     /*TEMPLATES METHOD*/
     private String getResultSearchElement(String substring)
     {
-    return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+          return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
     /*TEMPLATES METHOD*/
     public SearchPageObject waitForCancelButtonToAppear()

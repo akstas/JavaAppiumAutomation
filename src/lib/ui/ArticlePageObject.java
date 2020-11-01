@@ -1,37 +1,53 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.openqa.selenium.WebElement;
 
 
-public class ArticlePageObject extends MainPageObject{
+abstract public class ArticlePageObject extends MainPageObject
+{
     public ArticlePageObject(AppiumDriver driver)
     {
         super(driver);
     }
 
-    String TITLE = "id:org.wikipedia:id/view_page_title_text",
-           FOOTER_ELEMENT = "xpath://*[@text='View page in browser']",
-           OPTIONS_BUTTON = "xpath://android.widget.ImageView[@content-desc='More options']",
-           OPTIONS_ADD_TO_MY_LIST_BUTTON = "xpath://*[@text='Add to reading list']",
-           ADD_TO_MY_LIST_OVERLAY = "id:org.wikipedia:id/onboarding_button",
-           MY_LIST_NAME_INPUT = "id:org.wikipedia:id/text_input",
-           MY_LIST_OK_BUTTON = "xpath://*[@text='OK']",
-           CLOSE_ARTICLE_BUTTON = "xpath://android.widget.ImageButton[@content-desc='Navigate up']",
-           TITLE_IN_LIST = "id:org.wikipedia:id/page_list_item_title";
+    protected static String
+            TITLE,
+            FOOTER_ELEMENT,
+            OPTIONS_BUTTON,
+            OPTIONS_ADD_TO_MY_LIST_BUTTON,
+            ADD_TO_MY_LIST_OVERLAY,
+            MY_LIST_NAME_INPUT,
+            MY_LIST_OK_BUTTON,
+            CLOSE_ARTICLE_BUTTON,
+            TITLE_IN_LIST,
+            SYNC_YOUR_PREFERENCES_CLOSE;
+
 
     public WebElement waitForTitleElement()
     {
-        return waitForElementPresent(TITLE, "Cannot find article title on page", 5);
+        return waitForElementPresent(TITLE, "Cannot find article title on page", 10);
     }
     public String getArticleTitle()
     {
         WebElement titleElement = waitForTitleElement();
-        return titleElement.getAttribute("text");
+        if(Platform.getInstance().isAndroid())
+        {
+            return titleElement.getAttribute("text");
+        } else {
+            return titleElement.getAttribute("name");
+        }
     }
     public void swipeToFindElement()
     {
-        this.swipeUpToElement(FOOTER_ELEMENT, "Cannot find the end of article", 20);
+        if(Platform.getInstance().isAndroid())
+        {
+            this.swipeUpToElement(FOOTER_ELEMENT, "Cannot find the end of article", 40);
+        }else {
+            this.swipeUpTitleElementAppear(FOOTER_ELEMENT, "Cannot find the end of article", 40);
+        }
+
     }
     public void addArticleToMyList(String folderName, boolean createNewFolder)
     {
@@ -80,11 +96,7 @@ public class ArticlePageObject extends MainPageObject{
     }
     public void closeArticle()
     {
-        this.waitForElementPresentAndClick(
-                 CLOSE_ARTICLE_BUTTON,
-                "Cannot close article, cannot find X link",
-                5
-        );
+        this.waitForElementPresentAndClick(CLOSE_ARTICLE_BUTTON,"Cannot close article, cannot find X link",5);
     }
     public WebElement waitForTitleElementInList()
     {
@@ -94,5 +106,17 @@ public class ArticlePageObject extends MainPageObject{
     {
         WebElement titleElement = waitForTitleElementInList();
         return titleElement.getAttribute("text");
+    }
+    public void addArticleToMySaved()
+    {
+        this.waitForElementPresentAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to read list", 5);
+    }
+    public boolean checkScreenSyncYourPreferences()
+    {
+        return isElementLocatedOnTheScreen(SYNC_YOUR_PREFERENCES_CLOSE);
+    }
+    public void clickCloseSyncYourPreferences()
+    {
+        this.waitForElementPresentAndClick(SYNC_YOUR_PREFERENCES_CLOSE,"Cannot click by preferences close",5);
     }
 }
