@@ -36,12 +36,9 @@ public class MyListTests extends CoreTestCase
                 articlePageObject.clickCloseSyncYourPreferences();
             }
         }
-
         articlePageObject.closeArticle();
-
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.clickMyLists();
-
         MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
         if (Platform.getInstance().isAndroid()) {
             myListPageObject.openFolderByName(folderName);
