@@ -17,6 +17,8 @@ abstract public class SearchPageObject extends MainPageObject
             SEARCH_EMPTY_RESULT_ELEMENT,
             SEARCH_EMPTY_RESULT_ELEMENT_IMAGE,
             SEARCH_CLEAR_MINI;
+    //SEARCH_LOCATOR_RREPLACE_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRINGTITLE}']/..//*[@text='{SUBSTRINGDESCRIPTION}']";
+
 
     public SearchPageObject initSearchInput()
     {
@@ -40,7 +42,17 @@ abstract public class SearchPageObject extends MainPageObject
     {
           return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
+    private String testMethodEx9(String substring, String description)
+    {
+        return SEARCH_LOCATOR_RREPLACE_TPL.replace("{SUBSTRINGTITLE}", substring).replace("{SUBSTRINGDESCRIPTION}", description);
+    }
     /*TEMPLATES METHOD*/
+    public SearchPageObject waitForElementByTitleAndDescription(String substring, String description)
+    {
+        String searchResultXpath = testMethodEx9(substring, description);
+        waitForElementPresent(By.xpath(searchResultXpath), "Cannot find search result with substring SIBLING : ", 5);
+        return this;
+    }
     public SearchPageObject waitForCancelButtonToAppear()
     {
         waitForElementPresent(SEARCH_CANCEL_BUTTON,"Cannot find X to cancel search",5);

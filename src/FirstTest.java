@@ -15,4 +15,7 @@ public class FirstTest extends CoreTestCase {
                 .typeSearchLine("Kotlin")
                 .waitForSearchResult("Programming language");
     }
-}
+
+
+   }
+
