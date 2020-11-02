@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 
 abstract public class SearchPageObject extends MainPageObject
 {
@@ -16,8 +17,8 @@ abstract public class SearchPageObject extends MainPageObject
             SEARCH_RESULT_ELEMENT,
             SEARCH_EMPTY_RESULT_ELEMENT,
             SEARCH_EMPTY_RESULT_ELEMENT_IMAGE,
-            SEARCH_CLEAR_MINI;
-    //SEARCH_LOCATOR_RREPLACE_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRINGTITLE}']/..//*[@text='{SUBSTRINGDESCRIPTION}']";
+            SEARCH_CLEAR_MINI,
+            SEARCH_LOCATOR_RREPLACE_TPL;
 
 
     public SearchPageObject initSearchInput()
@@ -50,7 +51,7 @@ abstract public class SearchPageObject extends MainPageObject
     public SearchPageObject waitForElementByTitleAndDescription(String substring, String description)
     {
         String searchResultXpath = testMethodEx9(substring, description);
-        waitForElementPresent(By.xpath(searchResultXpath), "Cannot find search result with substring SIBLING : ", 5);
+        waitForElementPresent(searchResultXpath, "Cannot find search result with substring SIBLING : ", 5);
         return this;
     }
     public SearchPageObject waitForCancelButtonToAppear()
@@ -60,7 +61,13 @@ abstract public class SearchPageObject extends MainPageObject
     }
     public SearchPageObject clickCancelSearch()
     {
-        this.waitForElementPresentAndClick(SEARCH_CANCEL_BUTTON, "Cannot click to X element", 5);
+        if (Platform.getInstance().isAndroid())
+        {
+            this.waitForElementPresentAndClick(SEARCH_CANCEL_BUTTON, "Cannot click to X element", 5);
+
+        } else {
+            EraseSearchInput();
+        }
         return this;
     }
     public SearchPageObject waitForCancelButtonToDisapear()

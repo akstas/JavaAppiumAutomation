@@ -13,6 +13,7 @@ public class iOSSearchPageObject extends SearchPageObject {
         SEARCH_EMPTY_RESULT_ELEMENT = "xpath://XCUIElementTypeStaticText[@name='No results found']";
         SEARCH_EMPTY_RESULT_ELEMENT_IMAGE = "xpath://*[@resource_id='org.wikipedia:id/search_empty_image']";
         SEARCH_CLEAR_MINI = "id:clear mini";
+        SEARCH_LOCATOR_RREPLACE_TPL = "xpath://XCUIElementTypeStaticText[contains(@name,'{SUBSTRINGTITLE}')]/..//*[contains(@name,'{SUBSTRINGDESCRIPTION}')]";
     }
 
     public iOSSearchPageObject(AppiumDriver driver)

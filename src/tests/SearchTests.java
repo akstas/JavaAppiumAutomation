@@ -79,7 +79,7 @@ public class SearchTests extends CoreTestCase {
         String searchThirdValue = "Kotlin";
         String titleThirdValue = "Kotlin (programming language)";
 
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .initSearchInput()
                 .typeSearchLine(searchFirstValue);
